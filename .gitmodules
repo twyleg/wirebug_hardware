@@ -1,0 +1,6 @@
+[submodule "external/twyleg_kicad_library"]
+	path = external/twyleg_kicad_library
+	url = git@github.com:twyleg/twyleg_kicad_library.git
+[submodule "external/twyleg_kicad_utils"]
+	path = external/twyleg_kicad_utils
+	url = git@github.com:twyleg/twyleg_kicad_utils.git

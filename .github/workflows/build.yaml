@@ -1,0 +1,49 @@
+name: build
+
+on:
+  push:
+    paths:
+    - '**.kicad_sch'
+    - '**.kicad_pcb'
+    - '.github/workflows/build.yaml'
+    - 'config.kibot.yaml'
+  pull_request:
+    paths:
+      - '**.kicad_sch'
+      - '**.kicad_pcb'
+      - '.github/workflows/build.yaml'
+      - 'config.kibot.yaml'
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'true'
+    - name: Clean exports
+      run: rm -r ./export/
+    - uses: INTI-CMNB/KiBot@v2_k7
+      with:
+        config: external/twyleg_kicad_utils/kibot/default.kibot.yaml
+    - name: Update github page
+      run: |
+            rm -rf ./docs/*
+            mkdir -p ./docs/
+            cp -r export/bom/ibom.html ./docs/index.html
+  commit_push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Commit results
+      run: |
+            git status
+            git config --global user.name 'Torsten Wylegala'
+            git config --global user.email 'twyleg@users.noreply.github.com'
+            git add export/
+            git add docs/
+            git commit -m "Generated exports"
+            git push

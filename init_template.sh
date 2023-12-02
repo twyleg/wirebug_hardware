@@ -1,0 +1,1 @@
+external/twyleg_kicad_utils/scripts/init_template.sh

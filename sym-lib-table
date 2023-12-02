@@ -1,0 +1,6 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "twyleg-connectors")(type "KiCad")(uri "${KIPRJMOD}/libs/twyleg_kicad_library/lib/symbols/twyleg-connectors.kicad_sym")(options "")(descr ""))
+  (lib (name "twyleg-voltage-regulators")(type "KiCad")(uri "${KIPRJMOD}/libs/twyleg_kicad_library/lib/symbols/twyleg-voltage-regulators.kicad_sym")(options "")(descr ""))
+  (lib (name "twyleg-board-connectors")(type "KiCad")(uri "${KIPRJMOD}/libs/twyleg_kicad_library/lib/symbols/twyleg-board-connectors.kicad_sym")(options "")(descr ""))
+)
