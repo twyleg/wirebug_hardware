@@ -33,11 +33,6 @@ jobs:
             rm -rf ./docs/*
             mkdir -p ./docs/
             cp -r export/bom/ibom.html ./docs/index.html
-  commit_push:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
     - name: Commit results
       run: |
             git status
