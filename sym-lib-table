@@ -3,4 +3,5 @@
   (lib (name "twyleg-connectors")(type "KiCad")(uri "${KIPRJMOD}/libs/twyleg_kicad_library/lib/symbols/twyleg-connectors.kicad_sym")(options "")(descr ""))
   (lib (name "twyleg-voltage-regulators")(type "KiCad")(uri "${KIPRJMOD}/libs/twyleg_kicad_library/lib/symbols/twyleg-voltage-regulators.kicad_sym")(options "")(descr ""))
   (lib (name "twyleg-board-connectors")(type "KiCad")(uri "${KIPRJMOD}/libs/twyleg_kicad_library/lib/symbols/twyleg-board-connectors.kicad_sym")(options "")(descr ""))
+  (lib (name "twyleg-misc")(type "KiCad")(uri "${KIPRJMOD}/external/twyleg_kicad_library/lib/symbols/twyleg-misc.kicad_sym")(options "")(descr ""))
 )
