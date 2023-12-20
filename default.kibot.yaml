@@ -1,0 +1,177 @@
+kibot:
+  version: 1
+
+globals:
+  output: '%i.%x'
+  # Filters for KiBot warnings
+  filters:
+    - filter: Ignore PcbDraw missing components
+      number: 103
+    - filter: Ignore missing KiCad config, not in docker images
+      number: 8
+    - filter: Ignore missing KiCad 3D models, not in docker images
+      number: 10
+    - filter: Ignore missing KiCad config from KiAuto, not in docker images
+      number: 58
+      regex: kicad_common.json
+
+  restore_project: true
+  time_reformat: false
+
+preflight:
+  check_zone_fills: true
+  run_erc: false
+  run_drc: false
+
+groups:
+  - name: bom
+    outputs:
+      - bom_xlsx
+      - bom_html
+      - ibom
+  - name: sch
+    outputs:
+      - sch_to_pdf
+      - sch_to_svg
+  - name: pcb
+    outputs:
+      - pcb_to_pdf
+      - board_top
+      - board_bottom
+  - name: board
+    outputs:
+      - board_top
+      - board_bottom
+  - name: 3d
+    outputs:
+      - 3d_step
+      - 3d_png
+      - 3d_png_hq
+
+outputs:
+  - name: bom_xlsx
+    comment: "PCB to BOM - XLSX"
+    type: bom
+    dir: export/bom
+    options: &bom_options
+      xlsx:
+        datasheet_as_link: MFP
+        title: 'KiBot variants example'
+        max_col_width: 40
+        highlight_empty: false
+      columns:
+        - Row
+        - References
+        - Quantity Per PCB
+        - field: Value
+          join: ['voltage', 'current', 'power', 'tolerance']
+        - field: MFN
+          name: Manufacturer
+        - field: MFP
+          name: Manf. Part
+        - Footprint
+      normalize_values: true
+
+  - name: bom_html
+    comment: "PCB to BOM - HTML"
+    type: bom
+    dir: export/bom
+    options:
+      <<: *bom_options
+      format: HTML
+      html:
+        datasheet_as_link: MFP
+        title: 'KiBot variants example'
+        highlight_empty: false
+
+  - name: ibom
+    comment: 'PCB to BOM - interactive BOM'
+    type: ibom
+    dir: export/bom
+    options:
+      layer_view: FB
+
+  - name: sch_to_pdf
+    comment: "Schematic to PDF"
+    type: pdf_sch_print
+    dir: export/sch
+  
+  - name: sch_to_svg
+    comment: "Schematic to SVG"
+    type: svg_sch_print
+    dir: export/sch
+
+  - name: pcb_to_pdf
+    comment: "PCB to PDF"
+    type: pcb_print
+    dir: export/pcb
+    options:
+      force_edge_cuts: true
+      keep_temporal_files: true
+      scaling: 1.0
+      pages:
+        - layers: [ F.Paste, F.Fab ]
+          sheet: 'Fabrication layers'
+        - layers: [ F.Cu, F.Silkscreen, Edge.Cuts ]
+          sheet: 'Top layer'
+        - layers: [ B.Cu, B.Silkscreen, Edge.Cuts ]
+          sheet: 'Bottom layer'
+          mirror: true
+
+  - name: board_top
+    comment: "Board to PNG - Top"
+    type: pcbdraw
+    dir: export/pcb
+    options:
+      format: png
+      dpi: 300
+
+  - name: board_bottom
+    comment: "Board to PNG - Bottom"
+    type: pcbdraw
+    dir: export/pcb
+    options:
+      format: png
+      dpi: 300
+      bottom: true
+
+  - name: 3d_step
+    comment: "PCB to STEP"
+    type: step
+    dir: export/3d
+
+  - name: 3d_png
+    comment: "PCB to PNG - 3D top"
+    type: render_3d
+    dir: export/3d
+    options:
+      zoom: 4
+      rotate_x: 3
+      rotate_z: 3
+      ray_tracing: true
+
+  - name: 3d_png_hq
+    comment: "PCB to PNG - 3D top (High Quality)"
+    type: blender_export
+    dir: export/3d
+    options:
+      pcb3d:
+        output: '%i.%x'
+      render_options:
+        transparent_background: true
+        samples: 20
+      point_of_view:
+        rotate_x: 0
+        rotate_y: 45
+        rotate_z: 45
+      outputs:
+        # - type: blender
+        type: render
+        output: '%i.%x'
+
+  - name: page
+    comment: "Cretate navigation page for results"
+    type: navigate_results
+    dir: export/html
+
+
