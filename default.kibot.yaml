@@ -52,7 +52,7 @@ outputs:
   - name: bom_xlsx
     comment: "PCB to BOM - XLSX"
     type: bom
-    dir: export/bom
+    dir: bom
     options: &bom_options
       xlsx:
         datasheet_as_link: MFP
@@ -75,7 +75,7 @@ outputs:
   - name: bom_html
     comment: "PCB to BOM - HTML"
     type: bom
-    dir: export/bom
+    dir: bom
     options:
       <<: *bom_options
       format: HTML
@@ -87,24 +87,24 @@ outputs:
   - name: ibom
     comment: 'PCB to BOM - interactive BOM'
     type: ibom
-    dir: export/bom
+    dir: bom
     options:
       layer_view: FB
 
   - name: sch_to_pdf
     comment: "Schematic to PDF"
     type: pdf_sch_print
-    dir: export/sch
+    dir: sch
   
   - name: sch_to_svg
     comment: "Schematic to SVG"
     type: svg_sch_print
-    dir: export/sch
+    dir: sch
 
   - name: pcb_to_pdf
     comment: "PCB to PDF"
     type: pcb_print
-    dir: export/pcb
+    dir: pcb
     options:
       force_edge_cuts: true
       keep_temporal_files: true
@@ -121,7 +121,7 @@ outputs:
   - name: board_top
     comment: "Board to PNG - Top"
     type: pcbdraw
-    dir: export/pcb
+    dir: pcb
     options:
       format: png
       dpi: 300
@@ -129,7 +129,7 @@ outputs:
   - name: board_bottom
     comment: "Board to PNG - Bottom"
     type: pcbdraw
-    dir: export/pcb
+    dir: pcb
     options:
       format: png
       dpi: 300
@@ -138,12 +138,12 @@ outputs:
   - name: 3d_step
     comment: "PCB to STEP"
     type: step
-    dir: export/3d
+    dir: 3d
 
   - name: 3d_png
     comment: "PCB to PNG - 3D top"
     type: render_3d
-    dir: export/3d
+    dir: 3d
     options:
       zoom: 4
       rotate_x: 3
@@ -153,7 +153,7 @@ outputs:
   - name: 3d_png_hq
     comment: "PCB to PNG - 3D top (High Quality)"
     type: blender_export
-    dir: export/3d
+    dir: 3d
     options:
       pcb3d:
         output: '%i.%x'
@@ -172,6 +172,7 @@ outputs:
   - name: page
     comment: "Cretate navigation page for results"
     type: navigate_results
-    dir: export/html
-
+    dir: html
+    options:
+      link_from_root: index.html
 
